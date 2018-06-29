@@ -40,13 +40,18 @@ public class ManeuvringACamera extends Application {
         sphere = makeSphere(70, Color.DARKBLUE);
         sphere.setTranslateX(150);
         
+        PointLight pointLight = new PointLight();
+        pointLight.setTranslateX(200);
+        pointLight.setTranslateY(-100);
+        pointLight.setTranslateZ(-200);
+        
         camera = new PerspectiveCamera(true);
         camera.setNearClip(0.1);
         camera.setFarClip(5000.0);
         camera.setTranslateZ(INITIAL_CAMERA_DISTANCE);
         holder = new Group(camera);
         
-        root.getChildren().addAll(cylinder, box, sphere, holder);
+        root.getChildren().addAll(cylinder, box, sphere, pointLight, holder);
         Scene scene = new Scene(root, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
         scene.setCamera(camera);
         window.setTitle("Maneuvring A Camera");
