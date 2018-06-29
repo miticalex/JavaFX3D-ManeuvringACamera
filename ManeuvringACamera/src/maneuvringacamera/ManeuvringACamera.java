@@ -2,7 +2,10 @@ package maneuvringacamera;
 
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.PerspectiveCamera;
+import javafx.scene.PointLight;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -18,7 +21,12 @@ public class ManeuvringACamera extends Application {
     private static final double HEIGHT = 600;
     private static final double WIDTH = 600;
     
+    private static final double INITIAL_CAMERA_DISTANCE = -1000;
+    
     Group root = new Group();
+    
+    PerspectiveCamera camera;
+    Group holder;
     
     Cylinder cylinder;
     Box box;
@@ -32,8 +40,15 @@ public class ManeuvringACamera extends Application {
         sphere = makeSphere(70, Color.DARKBLUE);
         sphere.setTranslateX(150);
         
-        root.getChildren().addAll(cylinder, box, sphere);
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
+        camera = new PerspectiveCamera(true);
+        camera.setNearClip(0.1);
+        camera.setFarClip(5000.0);
+        camera.setTranslateZ(INITIAL_CAMERA_DISTANCE);
+        holder = new Group(camera);
+        
+        root.getChildren().addAll(cylinder, box, sphere, holder);
+        Scene scene = new Scene(root, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
+        scene.setCamera(camera);
         window.setTitle("Maneuvring A Camera");
         window.setScene(scene);
         window.show();
