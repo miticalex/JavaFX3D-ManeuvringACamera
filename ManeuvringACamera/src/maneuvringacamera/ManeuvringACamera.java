@@ -1,13 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package maneuvringacamera;
 
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.Cylinder;
+import javafx.scene.shape.Sphere;
 import javafx.stage.Stage;
 
 /**
@@ -20,15 +20,46 @@ public class ManeuvringACamera extends Application {
     
     Group root = new Group();
     
+    Cylinder cylinder;
+    Box box;
+    Sphere sphere;
+    
     @Override
     public void start(Stage window) {
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
+        cylinder = makeCylinder(70, 140, Color.CYAN);
+        box = makeBox(140, 140, 50, Color.BLUEVIOLET);
+        box.setTranslateX(-150);
+        sphere = makeSphere(70, Color.DARKBLUE);
+        sphere.setTranslateX(150);
         
+        root.getChildren().addAll(cylinder, box, sphere);
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
         window.setTitle("Maneuvring A Camera");
         window.setScene(scene);
         window.show();
     }
-
+    
+    private Cylinder makeCylinder(double r, double h, Color color){
+        Cylinder cylinder = new Cylinder(r,h);
+        cylinder.setMaterial(new PhongMaterial(color));
+        
+        return cylinder;
+    }
+    
+    private Box makeBox(double x, double y, double z, Color color){
+        Box box = new Box(140,140,50);
+        box.setMaterial(new PhongMaterial(color));
+        
+        return box;
+    }
+    
+    private Sphere makeSphere(double r, Color color){
+        Sphere sphere = new Sphere(70);
+        sphere.setMaterial(new PhongMaterial(color));
+        
+        return sphere;
+    }
+    
     /**
      * @param args the command line arguments
      */
