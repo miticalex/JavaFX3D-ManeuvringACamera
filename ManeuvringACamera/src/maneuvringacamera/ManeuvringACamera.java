@@ -167,6 +167,12 @@ public class ManeuvringACamera extends Application {
             speedModificator *= ALT_FACTOR;
         
         switch (keyEvent.getCode()) {
+            case PAGE_UP:
+                rZ.setAngle(rZ.getAngle() + ROTATION_SPEED*speedModificator);
+                break;
+            case PAGE_DOWN:
+                rZ.setAngle(rZ.getAngle() - ROTATION_SPEED*speedModificator);
+                break;
             default:
                 break;
         }
