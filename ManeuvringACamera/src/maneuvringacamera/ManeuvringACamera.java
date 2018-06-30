@@ -7,6 +7,7 @@ import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -30,6 +31,7 @@ public class ManeuvringACamera extends Application {
     private static final double ALT_FACTOR = 10.0;
     private static final double ROTATION_SPEED = 1.0;
     private static final double TRANSLATION_SPEED = 1.0;
+    private static final double SCROLLING_SPEED = 1.0;
     
     Group root = new Group();
     
@@ -65,7 +67,7 @@ public class ManeuvringACamera extends Application {
         
         camera = new PerspectiveCamera(true);
         camera.setNearClip(0.1);
-        camera.setFarClip(5000.0);
+        camera.setFarClip(100000.0);
         camera.setTranslateZ(INITIAL_CAMERA_DISTANCE);
         holder = new Group(camera);
         holder.getTransforms().addAll(camTranslate, rZ, rY, rX);
@@ -104,6 +106,7 @@ public class ManeuvringACamera extends Application {
     private void handleEvents(Scene scene, PerspectiveCamera camera) {
         scene.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> onMousePressed(e));//fetching initial mouse coordinates before the DRAG started
         scene.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> onMouseDragged(e));
+        scene.addEventHandler(ScrollEvent.SCROLL, e -> onScroll(e));
     }
     
     /**
@@ -142,6 +145,10 @@ public class ManeuvringACamera extends Application {
             camTranslate.setX(camTranslate.getX() + mouseMovedX*TRANSLATION_SPEED*speedModificator);
             camTranslate.setY(camTranslate.getY() + mouseMovedY*TRANSLATION_SPEED*speedModificator);
         }
+    }
+
+    private void onScroll(ScrollEvent scrollEvent) {
+        camTranslate.setZ(camTranslate.getZ() + scrollEvent.getDeltaY()*SCROLLING_SPEED);
     }
 
 }
