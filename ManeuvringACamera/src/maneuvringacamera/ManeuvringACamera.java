@@ -221,6 +221,24 @@ public class ManeuvringACamera extends Application {
                 
                 camera.setRotate(camera.getRotate() - ROTATION_SPEED*speedModificator);
                 break;
+            case W:
+                holderTranslate.setZ(holderTranslate.getZ() + TRANSLATION_SPEED*speedModificator);
+                break;
+            case S:
+                holderTranslate.setZ(holderTranslate.getZ() - TRANSLATION_SPEED*speedModificator);
+                break;
+            case D:
+                holderTranslate.setX(holderTranslate.getX() + TRANSLATION_SPEED*speedModificator);
+                break;
+            case A:
+                holderTranslate.setX(holderTranslate.getX() - TRANSLATION_SPEED*speedModificator);
+                break;
+            case B:
+                holderTranslate.setY(holderTranslate.getY() + TRANSLATION_SPEED*speedModificator);
+                break;
+            case Z:
+                holderTranslate.setY(holderTranslate.getY() - TRANSLATION_SPEED*speedModificator);
+                break;
             default:
                 break;
         }
