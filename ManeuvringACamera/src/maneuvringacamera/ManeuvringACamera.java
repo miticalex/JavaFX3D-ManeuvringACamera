@@ -26,7 +26,7 @@ public class ManeuvringACamera extends Application {
     private static final double HEIGHT = 600;
     private static final double WIDTH = 600;
     
-    private static final double INITIAL_CAMERA_DISTANCE = -1000;
+    private static final double CAMERA_INITIAL_DISTANCE = -1000;
     
     private static final double CTRL_FACTOR = 0.1;
     private static final double ALT_FACTOR = 10.0;
@@ -69,7 +69,7 @@ public class ManeuvringACamera extends Application {
         camera = new PerspectiveCamera(true);
         camera.setNearClip(0.1);
         camera.setFarClip(100000.0);
-        camera.setTranslateZ(INITIAL_CAMERA_DISTANCE);
+        camera.setTranslateZ(CAMERA_INITIAL_DISTANCE);
         holder = new Group(camera);
         holder.getTransforms().addAll(holderTranslate, holderRotateZ, holderRotateY, holderRotateX);
         
@@ -167,6 +167,23 @@ public class ManeuvringACamera extends Application {
             speedModificator *= ALT_FACTOR;
         
         switch (keyEvent.getCode()) {
+            case HOME:
+                camera.setTranslateZ(CAMERA_INITIAL_DISTANCE);
+                camera.setTranslateX(0);
+                camera.setTranslateY(0);
+                camera.setRotationAxis(Rotate.X_AXIS);
+                camera.setRotate(0);
+                camera.setRotationAxis(Rotate.Y_AXIS);
+                camera.setRotate(0);
+                camera.setRotationAxis(Rotate.Z_AXIS);
+                camera.setRotate(0);
+                holderTranslate.setX(0.0);
+                holderTranslate.setY(0.0);
+                holderTranslate.setZ(0.0);
+                holderRotateX.setAngle(0);
+                holderRotateY.setAngle(0);
+                holderRotateZ.setAngle(0);
+                break;
             case PAGE_UP:
                 holderRotateZ.setAngle(holderRotateZ.getAngle() + ROTATION_SPEED*speedModificator);
                 break;
