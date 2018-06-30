@@ -111,13 +111,6 @@ public class ManeuvringACamera extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, e-> onKeyPressed(e));
     }
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     //fetching initial mouse coordinates before the drag started
     private void onMousePressed(MouseEvent mouseEvent) {
         oldMousePositionX = mousePositionX = mouseEvent.getSceneX();
@@ -260,5 +253,11 @@ public class ManeuvringACamera extends Application {
                 break;
         }
     }
-
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
