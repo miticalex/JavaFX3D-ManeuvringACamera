@@ -128,25 +128,19 @@ public class ManeuvringACamera extends Application {
         mouseMovedX = (mousePositionX - oldMousePositionX);
         mouseMovedY = (mousePositionY - oldMousePositionY);
         
+        double speedModificator = 1.0;
+        if (mouseEvent.isControlDown())
+            speedModificator *= CTRL_FACTOR;
+        if (mouseEvent.isAltDown())
+            speedModificator *= ALT_FACTOR;
+        
         if (mouseEvent.isPrimaryButtonDown()) {
-            double rotationSpeed = ROTATION_SPEED;
-            if (mouseEvent.isControlDown())
-                rotationSpeed *= CTRL_FACTOR;
-            if (mouseEvent.isAltDown())
-                rotationSpeed *= ALT_FACTOR;
-            
-            rY.setAngle(rY.getAngle() - mouseMovedX*rotationSpeed);
-            rX.setAngle(rX.getAngle() + mouseMovedY*rotationSpeed);
+            rY.setAngle(rY.getAngle() - mouseMovedX*ROTATION_SPEED*speedModificator);
+            rX.setAngle(rX.getAngle() + mouseMovedY*ROTATION_SPEED*speedModificator);
         }
         else if (mouseEvent.isSecondaryButtonDown()) {
-            double translationSpeed = TRANSLATION_SPEED;
-            if (mouseEvent.isControlDown())
-                translationSpeed *= CTRL_FACTOR;
-            if (mouseEvent.isAltDown())
-                translationSpeed *= ALT_FACTOR;
-            
-            camTranslate.setX(camTranslate.getX() + mouseMovedX*translationSpeed);
-            camTranslate.setY(camTranslate.getY() + mouseMovedY*translationSpeed);
+            camTranslate.setX(camTranslate.getX() + mouseMovedX*TRANSLATION_SPEED*speedModificator);
+            camTranslate.setY(camTranslate.getY() + mouseMovedY*TRANSLATION_SPEED*speedModificator);
         }
     }
 
