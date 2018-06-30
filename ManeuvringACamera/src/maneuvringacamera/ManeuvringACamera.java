@@ -26,6 +26,8 @@ public class ManeuvringACamera extends Application {
     
     private static final double INITIAL_CAMERA_DISTANCE = -1000;
     
+    private static final double CTRL_FACTOR = 0.1;
+    private static final double ALT_FACTOR = 10.0;
     private static final double ROTATION_SPEED = 1.0;
     
     Group root = new Group();
@@ -124,9 +126,15 @@ public class ManeuvringACamera extends Application {
         mouseMovedX = (mousePositionX - oldMousePositionX);
         mouseMovedY = (mousePositionY - oldMousePositionY);
         
+        double rotationSpeed = ROTATION_SPEED;
+        if (mouseEvent.isControlDown())
+            rotationSpeed *= CTRL_FACTOR;
+        if (mouseEvent.isAltDown())
+            rotationSpeed *= ALT_FACTOR;
+        
         if (mouseEvent.isPrimaryButtonDown()) {
-            rY.setAngle(rY.getAngle() - mouseMovedX*ROTATION_SPEED);
-            rX.setAngle(rX.getAngle() + mouseMovedY*ROTATION_SPEED);
+            rY.setAngle(rY.getAngle() - mouseMovedX*rotationSpeed);
+            rX.setAngle(rX.getAngle() + mouseMovedY*rotationSpeed);
         }
     }
 
