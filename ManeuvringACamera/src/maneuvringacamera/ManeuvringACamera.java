@@ -44,10 +44,10 @@ public class ManeuvringACamera extends Application {
     Sphere sphere;
 
     //camera transforms
-    private Translate camTranslate = new Translate();
-    private Rotate rX = new Rotate(0, Rotate.X_AXIS);
-    private Rotate rY = new Rotate(0, Rotate.Y_AXIS);
-    private Rotate rZ = new Rotate(0, Rotate.Z_AXIS);
+    private Translate holderTranslate = new Translate();
+    private Rotate holderRotateX = new Rotate(0, Rotate.X_AXIS);
+    private Rotate holderRotateY = new Rotate(0, Rotate.Y_AXIS);
+    private Rotate holderRotateZ = new Rotate(0, Rotate.Z_AXIS);
     
     private double mousePositionX, mousePositionY;
     private double oldMousePositionX, oldMousePositionY;
@@ -71,7 +71,7 @@ public class ManeuvringACamera extends Application {
         camera.setFarClip(100000.0);
         camera.setTranslateZ(INITIAL_CAMERA_DISTANCE);
         holder = new Group(camera);
-        holder.getTransforms().addAll(camTranslate, rZ, rY, rX);
+        holder.getTransforms().addAll(holderTranslate, holderRotateZ, holderRotateY, holderRotateX);
         
         root.getChildren().addAll(cylinder, box, sphere, pointLight, holder);
         Scene scene = new Scene(root, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
@@ -140,12 +140,12 @@ public class ManeuvringACamera extends Application {
             speedModificator *= ALT_FACTOR;
         
         if (mouseEvent.isPrimaryButtonDown()) {
-            rY.setAngle(rY.getAngle() - mouseMovedX*ROTATION_SPEED*speedModificator);
-            rX.setAngle(rX.getAngle() + mouseMovedY*ROTATION_SPEED*speedModificator);
+            holderRotateY.setAngle(holderRotateY.getAngle() - mouseMovedX*ROTATION_SPEED*speedModificator);
+            holderRotateX.setAngle(holderRotateX.getAngle() + mouseMovedY*ROTATION_SPEED*speedModificator);
         }
         else if (mouseEvent.isSecondaryButtonDown()) {
-            camTranslate.setX(camTranslate.getX() + mouseMovedX*TRANSLATION_SPEED*speedModificator);
-            camTranslate.setY(camTranslate.getY() + mouseMovedY*TRANSLATION_SPEED*speedModificator);
+            camera.setTranslateX(camera.getTranslateX() + mouseMovedX*TRANSLATION_SPEED*speedModificator);
+            camera.setTranslateY(camera.getTranslateY() + mouseMovedY*TRANSLATION_SPEED*speedModificator);
         }
     }
 
@@ -156,7 +156,7 @@ public class ManeuvringACamera extends Application {
         if (scrollEvent.isAltDown())
             speedModificator *= ALT_FACTOR;
         
-        camTranslate.setZ(camTranslate.getZ() + scrollEvent.getDeltaY()*SCROLLING_SPEED*speedModificator);
+        camera.setTranslateZ(camera.getTranslateZ() + scrollEvent.getDeltaY()*SCROLLING_SPEED*speedModificator);
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
@@ -168,10 +168,10 @@ public class ManeuvringACamera extends Application {
         
         switch (keyEvent.getCode()) {
             case PAGE_UP:
-                rZ.setAngle(rZ.getAngle() + ROTATION_SPEED*speedModificator);
+                holderRotateZ.setAngle(holderRotateZ.getAngle() + ROTATION_SPEED*speedModificator);
                 break;
             case PAGE_DOWN:
-                rZ.setAngle(rZ.getAngle() - ROTATION_SPEED*speedModificator);
+                holderRotateZ.setAngle(holderRotateZ.getAngle() - ROTATION_SPEED*speedModificator);
                 break;
             default:
                 break;
