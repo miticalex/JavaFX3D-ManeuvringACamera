@@ -148,7 +148,13 @@ public class ManeuvringACamera extends Application {
     }
 
     private void onScroll(ScrollEvent scrollEvent) {
-        camTranslate.setZ(camTranslate.getZ() + scrollEvent.getDeltaY()*SCROLLING_SPEED);
+        double speedModificator = 1.0;
+        if (scrollEvent.isControlDown())
+            speedModificator *= CTRL_FACTOR;
+        if (scrollEvent.isAltDown())
+            speedModificator *= ALT_FACTOR;
+        
+        camTranslate.setZ(camTranslate.getZ() + scrollEvent.getDeltaY()*SCROLLING_SPEED*speedModificator);
     }
 
 }
