@@ -29,6 +29,7 @@ public class ManeuvringACamera extends Application {
     private static final double CTRL_FACTOR = 0.1;
     private static final double ALT_FACTOR = 10.0;
     private static final double ROTATION_SPEED = 1.0;
+    private static final double TRANSLATION_SPEED = 1.0;
     
     Group root = new Group();
     
@@ -40,6 +41,7 @@ public class ManeuvringACamera extends Application {
     Sphere sphere;
 
     //camera transforms
+    private Translate camTranslate = new Translate();
     private Rotate rX = new Rotate(0, Rotate.X_AXIS);
     private Rotate rY = new Rotate(0, Rotate.Y_AXIS);
     private Rotate rZ = new Rotate(0, Rotate.Z_AXIS);
@@ -66,7 +68,7 @@ public class ManeuvringACamera extends Application {
         camera.setFarClip(5000.0);
         camera.setTranslateZ(INITIAL_CAMERA_DISTANCE);
         holder = new Group(camera);
-        holder.getTransforms().addAll(rZ, rY, rX);
+        holder.getTransforms().addAll(camTranslate, rZ, rY, rX);
         
         root.getChildren().addAll(cylinder, box, sphere, pointLight, holder);
         Scene scene = new Scene(root, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
@@ -126,15 +128,25 @@ public class ManeuvringACamera extends Application {
         mouseMovedX = (mousePositionX - oldMousePositionX);
         mouseMovedY = (mousePositionY - oldMousePositionY);
         
-        double rotationSpeed = ROTATION_SPEED;
-        if (mouseEvent.isControlDown())
-            rotationSpeed *= CTRL_FACTOR;
-        if (mouseEvent.isAltDown())
-            rotationSpeed *= ALT_FACTOR;
-        
         if (mouseEvent.isPrimaryButtonDown()) {
+            double rotationSpeed = ROTATION_SPEED;
+            if (mouseEvent.isControlDown())
+                rotationSpeed *= CTRL_FACTOR;
+            if (mouseEvent.isAltDown())
+                rotationSpeed *= ALT_FACTOR;
+            
             rY.setAngle(rY.getAngle() - mouseMovedX*rotationSpeed);
             rX.setAngle(rX.getAngle() + mouseMovedY*rotationSpeed);
+        }
+        else if (mouseEvent.isSecondaryButtonDown()) {
+            double translationSpeed = TRANSLATION_SPEED;
+            if (mouseEvent.isControlDown())
+                translationSpeed *= CTRL_FACTOR;
+            if (mouseEvent.isAltDown())
+                translationSpeed *= ALT_FACTOR;
+            
+            camTranslate.setX(camTranslate.getX() + mouseMovedX*translationSpeed);
+            camTranslate.setY(camTranslate.getY() + mouseMovedY*translationSpeed);
         }
     }
 
