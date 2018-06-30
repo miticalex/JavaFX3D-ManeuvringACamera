@@ -6,11 +6,14 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Cylinder;
 import javafx.scene.shape.Sphere;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 /**
@@ -23,6 +26,8 @@ public class ManeuvringACamera extends Application {
     
     private static final double INITIAL_CAMERA_DISTANCE = -1000;
     
+    private static final double ROTATION_SPEED = 1.0;
+    
     Group root = new Group();
     
     PerspectiveCamera camera;
@@ -31,6 +36,15 @@ public class ManeuvringACamera extends Application {
     Cylinder cylinder;
     Box box;
     Sphere sphere;
+
+    //camera transforms
+    private Rotate rX = new Rotate(0, Rotate.X_AXIS);
+    private Rotate rY = new Rotate(0, Rotate.Y_AXIS);
+    private Rotate rZ = new Rotate(0, Rotate.Z_AXIS);
+    
+    private double mousePositionX, mousePositionY;
+    private double oldMousePositionX, oldMousePositionY;
+    private double mouseMovedX, mouseMovedY, stepZ;
     
     @Override
     public void start(Stage window) {
@@ -50,10 +64,13 @@ public class ManeuvringACamera extends Application {
         camera.setFarClip(5000.0);
         camera.setTranslateZ(INITIAL_CAMERA_DISTANCE);
         holder = new Group(camera);
+        holder.getTransforms().addAll(rZ, rY, rX);
         
         root.getChildren().addAll(cylinder, box, sphere, pointLight, holder);
         Scene scene = new Scene(root, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
         scene.setCamera(camera);
+        handleEvents(scene, camera);
+        
         window.setTitle("Maneuvring A Camera");
         window.setScene(scene);
         window.show();
@@ -80,11 +97,37 @@ public class ManeuvringACamera extends Application {
         return sphere;
     }
     
+    private void handleEvents(Scene scene, PerspectiveCamera camera) {
+        scene.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> onMousePressed(e));//fetching initial mouse coordinates before the DRAG started
+        scene.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> onMouseDragged(e));
+    }
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         launch(args);
     }
+
+    //fetching initial mouse coordinates before the drag started
+    private void onMousePressed(MouseEvent mouseEvent) {
+        oldMousePositionX = mousePositionX = mouseEvent.getSceneX();
+        oldMousePositionY = mousePositionY = mouseEvent.getSceneY();
+    }
     
+    private void onMouseDragged(MouseEvent mouseEvent) {
+        oldMousePositionX = mousePositionX;
+        oldMousePositionY = mousePositionY;
+        mousePositionX = mouseEvent.getSceneX();
+        mousePositionY = mouseEvent.getSceneY();
+        
+        mouseMovedX = (mousePositionX - oldMousePositionX);
+        mouseMovedY = (mousePositionY - oldMousePositionY);
+        
+        if (mouseEvent.isPrimaryButtonDown()) {
+            rY.setAngle(rY.getAngle() - mouseMovedX*ROTATION_SPEED);
+            rX.setAngle(rX.getAngle() + mouseMovedY*ROTATION_SPEED);
+        }
+    }
+
 }
