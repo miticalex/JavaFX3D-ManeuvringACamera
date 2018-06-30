@@ -173,6 +173,38 @@ public class ManeuvringACamera extends Application {
             case PAGE_DOWN:
                 holderRotateZ.setAngle(holderRotateZ.getAngle() - ROTATION_SPEED*speedModificator);
                 break;
+            case LEFT:
+                if (camera.getRotationAxis() != Rotate.Y_AXIS){
+                    camera.setRotationAxis(Rotate.Y_AXIS);
+                    camera.setRotate(0);
+                }
+                
+                camera.setRotate(camera.getRotate() - ROTATION_SPEED*speedModificator);
+                break;
+            case RIGHT:
+                if (camera.getRotationAxis() != Rotate.Y_AXIS){
+                    camera.setRotationAxis(Rotate.Y_AXIS);
+                    camera.setRotate(0);
+                }
+                
+                camera.setRotate(camera.getRotate() + ROTATION_SPEED*speedModificator);
+                break;
+            case UP:
+                if (camera.getRotationAxis() != Rotate.X_AXIS){
+                    camera.setRotationAxis(Rotate.X_AXIS);
+                    camera.setRotate(0);
+                }
+                
+                camera.setRotate(camera.getRotate() + ROTATION_SPEED*speedModificator);
+                break;
+            case DOWN:
+                if (camera.getRotationAxis() != Rotate.X_AXIS){
+                    camera.setRotationAxis(Rotate.X_AXIS);
+                    camera.setRotate(0);
+                }
+                
+                camera.setRotate(camera.getRotate() - ROTATION_SPEED*speedModificator);
+                break;
             default:
                 break;
         }
