@@ -6,6 +6,7 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
@@ -107,6 +108,7 @@ public class ManeuvringACamera extends Application {
         scene.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> onMousePressed(e));//fetching initial mouse coordinates before the DRAG started
         scene.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> onMouseDragged(e));
         scene.addEventHandler(ScrollEvent.SCROLL, e -> onScroll(e));
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, e-> onKeyPressed(e));
     }
     
     /**
@@ -155,6 +157,13 @@ public class ManeuvringACamera extends Application {
             speedModificator *= ALT_FACTOR;
         
         camTranslate.setZ(camTranslate.getZ() + scrollEvent.getDeltaY()*SCROLLING_SPEED*speedModificator);
+    }
+
+    private void onKeyPressed(KeyEvent keyEvent) {
+        switch (keyEvent.getCode()) {
+            default:
+                break;
+        }
     }
 
 }
