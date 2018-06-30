@@ -160,6 +160,12 @@ public class ManeuvringACamera extends Application {
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
+        double speedModificator = 1.0; 
+        if (keyEvent.isControlDown())
+            speedModificator *= CTRL_FACTOR;
+        if (keyEvent.isAltDown())
+            speedModificator *= ALT_FACTOR;
+        
         switch (keyEvent.getCode()) {
             default:
                 break;
